@@ -15,177 +15,124 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
+
+    button {
+    display: inline-block;
+    background-color: #2b5797; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+button:active {
+  background-color: #2d89ef;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+button:hover {
+    background-color: #2d89ef;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 </style>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-        var socket = io();
-        socket.on('DevicesList', function(data) {
-            if (data.ep == document.getElementById("device0").innerHTML) {
-            //     document.getElementById("ep0").innerHTML = data.ep;
-                document.getElementById("lt0").innerHTML = data.lt;
-                document.getElementById("b0").innerHTML = data.b;
-                document.getElementById("payload0").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate0").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device1").innerHTML) {
-                document.getElementById("lt1").innerHTML = data.lt;
-                document.getElementById("b1").innerHTML = data.b;
-                document.getElementById("payload1").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate1").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device2").innerHTML) {
-                document.getElementById("lt2").innerHTML = data.lt;
-                document.getElementById("b2").innerHTML = data.b;
-                document.getElementById("payload2").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate2").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device3").innerHTML) {
-                document.getElementById("lt3").innerHTML = data.lt;
-                document.getElementById("b3").innerHTML = data.b;
-                document.getElementById("payload3").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate3").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device4").innerHTML) {
-                document.getElementById("lt4").innerHTML = data.lt;
-                document.getElementById("b4").innerHTML = data.b;
-                document.getElementById("payload4").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate4").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device5").innerHTML) {
-                document.getElementById("lt5").innerHTML = data.lt;
-                document.getElementById("b5").innerHTML = data.b;
-                document.getElementById("payload5").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate5").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device6").innerHTML) {
-                document.getElementById("lt6").innerHTML = data.lt;
-                document.getElementById("b6").innerHTML = data.b;
-                document.getElementById("payload6").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate6").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device7").innerHTML) {
-                document.getElementById("lt7").innerHTML = data.lt;
-                document.getElementById("b7").innerHTML = data.b;
-                document.getElementById("payload7").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate7").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device8").innerHTML) {
-                document.getElementById("lt8").innerHTML = data.lt;
-                document.getElementById("b8").innerHTML = data.b;
-                document.getElementById("payload8").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate8").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device9").innerHTML) {
-                document.getElementById("lt9").innerHTML = data.lt;
-                document.getElementById("b9").innerHTML = data.b;
-                document.getElementById("payload9").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate9").innerHTML = data.date;
-            }
-            if (data.ep == document.getElementById("device10").innerHTML) {
-                document.getElementById("lt10").innerHTML = data.lt;
-                document.getElementById("b10").innerHTML = data.b;
-                document.getElementById("payload10").innerHTML = "(" +data.payload + ")";
-                document.getElementById("dateUpdate10").innerHTML = data.date;
-            }
-        });
+        // var socket = io();
+        
+
+        // function handleDiscoveryObjectsInstances() {
+        //     socket.emit('clickedDiscoveryObjectsInstances');
+        // }
+
+        // var modal = document.getElementById('Modal');
+        // var span = document.getElementsByClassName("close")[0];
+
+        // socket.on('UpdateDeviceMessage', function(data){
+        //     modal.style.display = "block";
+        //     document.getElementById("messageRes").innerHTML = data;
+        // })
+
+        // span.onclick = function() {
+        //     modal.style.display = "none";
+        // }
+        // window.onclick = function(event) {
+        //     if (event.target == modal) {
+        //         modal.style.display = "none";
+        //     }
+        // }
+
 </script>
+<body>
+    
+<div id="Modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Message</h2>
+    <p id="messageRes"></p>
+  </div>
+
+</div>
+</body>
+
 <table>
 	<tr>
 		<th>Devices Name</th>
-		<th>Life Time (s)</th>
-		<th>Binding</th>
-		<th>Payload             </th>
+        <th>Life Time</th>
+		<th>Payload</th>
         <th>Time Update</th>
 	</tr>
-    <%if(dataDevices.length >= 1){%>
+    <% for(var i=0 ; i < (dataDevices.length); i++){ %>
     <tr>
-        <td><a id="device0" href="<%=dataDevices[0].ep%>"><%=dataDevices[0].ep%></a></td>
-        <td id="lt0"></td>     
-        <td id="b0"></td>     
-        <td id="payload0"></td>
-        <td id="dateUpdate0"></td>
+        <td><a href="<%=dataDevices[i].ep%>"><%=dataDevices[i].ep%></a></td>
+        <td><%=dataDevices[i].lt%></td>     
+        <td><%=dataDevices[i].payload%></td>     
+        <td><%=dataDevices[i].date%></td>     
     </tr>
-    <%}%>
-    <%if(dataDevices.length >= 2){%>
-    <tr>
-        <td><a id="device1" href="<%=dataDevices[1].ep%>"><%=dataDevices[1].ep%></a></td>
-        <td id="lt1"></td>     
-        <td id="b1"></td>     
-        <td id="payload1"></td>
-        <td id="dateUpdate1"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 3){%>
-    <tr>
-        <td><a id="device2" href="<%=dataDevices[2].ep%>"><%=dataDevices[2].ep%></a></td>
-        <td id="lt2"></td>     
-        <td id="b2"></td>     
-        <td id="payload2"></td>
-        <td id="dateUpdate2"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 4){%>
-    <tr>
-        <td><a id="device3" href="<%=dataDevices[3].ep%>"><%=dataDevices[3].ep%></a></td>
-        <td id="lt3"></td>     
-        <td id="b3"></td>     
-        <td id="payload3"></td>
-        <td id="dateUpdate3"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 5){%>
-    <tr>
-        <td><a id="device4" href="<%=dataDevices[4].ep%>"><%=dataDevices[4].ep%></a></td>
-        <td id="lt4"></td>     
-        <td id="b4"></td>     
-        <td id="payload4"></td>
-        <td id="dateUpdate4"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 6){%>
-    <tr>
-        <td><a id="device5" href="<%=dataDevices[5].ep%>"><%=dataDevices[5].ep%></a></td>
-        <td id="lt5"></td>     
-        <td id="b5"></td>     
-        <td id="payload5"></td>
-        <td id="dateUpdate5"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 7){%>
-    <tr>
-        <td><a id="device6" href="<%=dataDevices[6].ep%>"><%=dataDevices[6].ep%></a></td>
-        <td id="lt6"></td>     
-        <td id="b6"></td>     
-        <td id="payload6"></td>
-        <td id="dateUpdate6"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 8){%>
-    <tr>
-        <td><a id="device7" href="<%=dataDevices[7].ep%>"><%=dataDevices[7].ep%></a></td>
-        <td id="lt7"></td>     
-        <td id="b7"></td>     
-        <td id="payload7"></td>
-        <td id="dateUpdate7"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 9){%>
-    <tr>
-        <td><a id="device8" href="<%=dataDevices[8].ep%>"><%=dataDevices[8].ep%></a></td>
-        <td id="lt8"></td>     
-        <td id="b8"></td>     
-        <td id="payload8"></td>
-        <td id="dateUpdate8"></td>
-    </tr>
-    <%}%>
-    <%if(dataDevices.length >= 10){%>
-    <tr>
-        <td><a id="device9" href="<%=dataDevices[9].ep%>"><%=dataDevices[9].ep%></a></td>
-        <td id="lt9"></td>     
-        <td id="b9"></td>     
-        <td id="payload9"></td>
-        <td id="dateUpdate9"></td>
-    </tr>
-    <%}%>
+    <% } %>
 </table>

@@ -22,7 +22,7 @@
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
-    float: center;
+    /* float: center; */
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 button:active {
@@ -44,7 +44,7 @@ button:hover {
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
-    float: center;
+    /* float: center; */
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
@@ -60,13 +60,13 @@ button:hover {
     table {
         border-collapse: collapse;
         width: 80%;
-        position: relative;
+        position: sticky;
     	left: 80px;
     }
     
     th,
     td {
-        text-align: center;
+        text-align: left;
         padding: 8px;
     }
     
@@ -77,12 +77,63 @@ button:hover {
     th {
         background-color: #008ae6;
         color: white;
+        text-align: left;
     }
 
   .center {
   	text-align: center;
   }
-    
+    /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.rowLEDstate:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.columnLEDstate {
+    float: left;
+    width: 33%;
+    /* padding: 8px; */
+    /* height: 300px; Should be removed. Only for demonstration */
+}
+
 </style>
 
 
@@ -101,127 +152,106 @@ button:hover {
 
 <body>
 
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Message</h2>
+    <p id="messageResponse"></p>
+  </div>
+
+</div>
     <table id="idDevice">
         <tr>
             <th>Device</th>
-            <th>Instances</th>
-            <th>
-                <button onclick="buttonDeviceInfo()">Read</button>
-            </th>
+            <!-- <th><button onclick="buttonDeviceInfo()">Read</button></th> -->
+            <th>Information</th>
         </tr>
         <tr>
             <td>Manufacturer</td>
-            <td>/3/0/0</td>
             <td id="manufacturer"></td>
         </tr>
         <tr>
             <td>Model Number</td>
-            <td>/3/0/1</td>
             <td id="modelNumber"></td>
         </tr>
         <tr>
             <td>Serial Number</td>
-            <td>/3/0/2</td>
             <td id="serialNumber"></td>
         </tr>
         <tr>
             <td>Firmware Version</td>
-            <td>/3/0/3</td>
             <td id="frimwareVersion"></td>
         </tr>
         <tr>
             <td>Device Type</td>
-            <td>/3/0/17</td>
             <td id="deviceType"></td>
         </tr>
     </table>
     <table>
         <tr>
-            <th>LED GREEN</th>
-            <th>Instances</th>
-            <th>
-                <button onclick="buttonLightControlLedGreen()">Read</button>
-            </th>
+            <th>Relay 1</th>
+            <th>Relay 2</th>
         </tr>
-        <tr>
-            <td>onOff</td>
-            <td>/3311/0/5850</td>
-            <td id="onOffGreen"></td>
-        </tr>
-        <tr>
-            <td>colour</td>
-            <td>/3311/0/5706</td>
-            <td id="colourGreen"></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>LED RED</th>
-            <th>Instances</th>
-            <th>
-                <button onclick="buttonLightControlLedRed()">Read</button>
-            </th>
-        </tr>
-        <tr>
-            <td>onOff</td>
-            <td>/3311/1/5850</td>
-            <td id="onOffRed"></td>
-        </tr>
-        <tr>
-            <td>colour</td>
-            <td>/3311/1/5706</td>
-            <td id="colourRed"></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>LED BLUE</th>
-            <th>Instances</th>
-            <th>
-                <button onclick="buttonLightControlLedBlue()">Read</button>
-            </th>
-        </tr>
-        <tr>
-            <td>onOff</td>
-            <td>/3311/2/5850</td>
-            <td id="onOffBlue"></td>
-        </tr>
-        <tr>
-            <td>colour</td>
-            <td>/3311/2/5706</td>
-            <td id="colourBlue"></td>
-        </tr>
+        <td><div class="btn-group">
+            <button id="stateModeRelay1" class="button" onclick="handleModeRelay1()"></button>
+            <button id="onOffRelay1" class="button" onclick="handleRelay1()"></button>
+        </div>
+        </td>
+        <td><div class="btn-group">
+            <!-- <button id="stateModeRelay2" class="button" onclick="handleModeRelay2()"></button> -->
+            <button id="onOffRelay2" class="button" onclick="handleRelay2()"></button>
+        </div>
+        </td>
     </table>
     <table>
   <tr>
-    <th>Led Green</th>
     <th>Led Red</th>
+    <th>Led Green</th>
     <th>Led Blue</th>
   </tr>
   <tr>
+    
+    
     <td><div class="btn-group">
-        <button class="button" onclick="handleLedGreenOn()">On</button>
-        <button class="button" onclick="handleLedGreenOff()">Off</button>
+        <button id="onOffRed" class="button" onclick="handleLedRed()"></button>
     	</div>
 	</td>
     <td><div class="btn-group">
-        <button class="button" onclick="handleLedRedOn()">On</button>
-        <button class="button" onclick="handleLedRedOff()">Off</button>
+        <button id="onOffGreen" class="button" onclick="handleLedGreen()"></button>
     	</div>
-	</td>
+    </td>
     <td><div class="btn-group">
-        <button class="button" onclick="handleLedBlueOn()">On</button>
-        <button class="button" onclick="handleLedBlueOff()">Off</button>
+        <button id="onOffBlue" class="button" onclick="handleLedBlue()"></button>
     	</div>
 	</td>
   </tr>
 </table>
     <h4 class="center">Date: <span id="date"></span></h4>
-    <button class="center" onclick="buttonTemp()">Read</button>
+    <div class="btn-group">
+        <!-- <button class="button" onclick="buttonObserveTemp()">Observe</button> -->
+        <!-- <button class="button" onclick="buttonStopObserveTemp()">Stop Observe</button> -->
+        </div>
 	
     <div class="chart-container" style="position: relative; width:75vw; margin: auto;">
-        <canvas id="myChart" width="800" height="450"></canvas>
+        <canvas id="tempChart" width="500" height="250"></canvas>
     </div>
+    <div class="chart-container" style="position: relative; width:75vw; margin: auto;">
+        <canvas id="humdChart" width="500" height="250"></canvas>
+    </div>
+    <div class="chart-container" style="position: relative; width:75vw; margin: auto;">
+        <canvas id="pressChart" width="500" height="250"></canvas>
+    </div>
+    <div class="chart-container" style="position: relative; width:75vw; margin: auto;">
+        <canvas id="Illuminance" width="500" height="250"></canvas>
+    </div>
+    
+   
+
+
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -238,47 +268,72 @@ button:hover {
 
         });
         socket.on('LightControlLedGreen', function(data) {
-            document.getElementById("onOffGreen").innerHTML = data.onOff;
-            document.getElementById("colourGreen").innerHTML = data.colour;
-
+            var state = data.onOff;
+                if(state == true){
+                    document.getElementById("onOffGreen").innerHTML = 'On';
+                    document.getElementById("onOffGreen").style.backgroundColor = "#00a300";
+                }else{
+                    document.getElementById("onOffGreen").innerHTML = 'Off';
+                    document.getElementById("onOffGreen").style.backgroundColor = "#808080";
+                }
         });
         socket.on('LightControlLedRed', function(data) {
-            document.getElementById("onOffRed").innerHTML = data.onOff;
-            document.getElementById("colourRed").innerHTML = data.colour;
-
+            var state = data.onOff;
+                if(state == true){
+                    document.getElementById("onOffRed").innerHTML = 'On';
+                    document.getElementById("onOffRed").style.backgroundColor = "#ee1111";
+                }else{
+                    document.getElementById("onOffRed").innerHTML = 'Off';
+                    document.getElementById("onOffRed").style.backgroundColor = "#808080";
+                }
         });
         socket.on('LightControlLedBlue', function(data) {
-            document.getElementById("onOffBlue").innerHTML = data.onOff;
-            document.getElementById("colourBlue").innerHTML = data.colour;
-
+            var state = data.onOff;
+                if(state == true){
+                    document.getElementById("onOffBlue").innerHTML = 'On';
+                    document.getElementById("onOffBlue").style.backgroundColor = "#2d89ef";
+                }else{
+                    document.getElementById("onOffBlue").innerHTML = 'Off';
+                    document.getElementById("onOffBlue").style.backgroundColor = "#808080";
+                }
         });
+        var modal = document.getElementById('myModal');
+        var span = document.getElementsByClassName("close")[0];
 
-        function buttonDeviceInfo() {
-            socket.emit('clickedDeviceInfo');
+        socket.on('responseMessage', function(data){
+            modal.style.display = "block";
+            document.getElementById("messageResponse").innerHTML = data;
+        })
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
-        function buttonLightControlLedGreen() {
-            socket.emit('clickedLightControlLedGreen');
-        }
-        function buttonLightControlLedRed() {
-            socket.emit('clickedLightControlLedRed');
-        }
-        function buttonLightControlLedBlue() {
-            socket.emit('clickedLightControlLedBlue');
+        // function buttonDeviceInfo() {
+        //     socket.emit('clickedDeviceInfo');
+        // }
+        function buttonObserveTemp() {
+            socket.emit('clickedObserveTemp');
         }
 
-        function buttonTemp() {
-            socket.emit('clickedTemp');
-        }
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var chart = new Chart(ctx, {
+        // function buttonStopObserveTemp() {
+        //     socket.emit('clickedStopObserveTemp');
+        // }
+
+        var ctxTemp = document.getElementById("tempChart").getContext('2d');
+        var tempChart = new Chart(ctxTemp, {
             // The type of chart we want to create
             type: 'line',
             // The data for our dataset
             data: {
                 labels: [],
                 datasets: [{
-                    label: "Temperature (Cel)",
+                    label: "Temperature on Si7021 (Cel)",
                     borderColor: "#FF5733",
                     data: [],
                     fill: false,
@@ -302,79 +357,256 @@ button:hover {
         socket.on('Temperature', function(data) {
             //console.log(data.temp);
             document.getElementById('date').innerHTML = data.date+" 	Time:"+data.time; //update the date
-            if (chart.data.labels.length != 15) { //If we have less than 15 data points in the graph
-                chart.data.labels.push(data.time); //Add time in x-asix
-                chart.data.datasets.forEach((dataset) => {
+            if (tempChart.data.labels.length != 15) { //If we have less than 15 data points in the graph
+                tempChart.data.labels.push(data.time); //Add time in x-asix
+                tempChart.data.datasets.forEach((dataset) => {
                     dataset.data.push(data.temp); //Add temp in y-axis
                 });
             } else { //If there are already 15 data points in the graph.
-                chart.data.labels.shift(); //Remove first time data
-                chart.data.labels.push(data.time); //Insert latest time data
-                chart.data.datasets.forEach((dataset) => {
+                tempChart.data.labels.shift(); //Remove first time data
+                tempChart.data.labels.push(data.time); //Insert latest time data
+                tempChart.data.datasets.forEach((dataset) => {
                     dataset.data.shift(); //Remove first temp data
                     dataset.data.push(data.temp); //Insert latest temp data
                 });
             }
-            chart.update(); //Update the graph.
+            tempChart.update(); //Update the graph.
 
         });
-        // document.addEventListener('DOMContentLoaded', function () {
-        	function handleLedGreenOn(){
-        			socket.emit('eventLedGreenOn');
-        	}
-        	function handleLedGreenOff(){
-        			socket.emit('eventLedGreenOff');
-        	}
-        	function handleLedRedOn(){
-        			socket.emit('eventLedRedOn');
-        	}
-        	function handleLedRedOff(){
-        			socket.emit('eventLedRedOff');
-        	}
-        	function handleLedBlueOn(){
-        			socket.emit('eventLedBlueOn');
-        	}
-        	function handleLedBlueOff(){
-        			socket.emit('eventLedBlueOff');
-        	}
-		        
-		        // function handleLedRed(){
-		        //         if (checkbox.checked) {
-		        //             socket.emit('eventLedRedOn');
-		        //         } else {
-		        //             socket.emit('eventLedRedOff');
-		        //         }
-		        // }
-		        // function handleLedBlue(){
-		        //         if (checkbox.checked) {
-		        //             socket.emit('eventLedBlueOn');
-		        //         } else {
-		        //             socket.emit('eventLedBlueOff');
-		        //         }
-		        // }
-        // function handleLedRed() {
 
-        //     // var checkbox = document.querySelector('input[type="checkbox"]');
-        //     checkbox.addEventListener('change', function() {
-        //         if (checkbox.checked) {
-        //             socket.emit('eventLedRedOn');
-        //         } else {
-        //             socket.emit('eventLedRedOff');
-        //         }
-        //     });
-        // }
-        // function handleLedBlue() {
+        var ctxHumd = document.getElementById("humdChart").getContext('2d');
+        var humdChart = new Chart(ctxHumd, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Humidity on Si7021 (%)",
+                    borderColor: "#FF5733",
+                    data: [],
+                    fill: false,
+                    pointStyle: 'circle',
+                    backgroundColor: '#3498DB',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    lineTension: 0,
+                }]
+            },
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
 
-        //     // var checkbox = document.querySelector('input[type="checkbox"]');
-        //     checkbox.addEventListener('change', function() {
-        //         if (checkbox.checked) {
-        //             socket.emit('eventBlueBlueOn');
-        //         } else {
-        //             socket.emit('eventLedBlueOff');
-        //         }
-        //     });
-        // }
-        // });
+        });
+        socket.on('Humidity', function(data) {
+            //console.log(data.temp);
+            document.getElementById('date').innerHTML = data.date+" 	Time:"+data.time; //update the date
+            if (humdChart.data.labels.length != 15) { //If we have less than 15 data points in the graph
+                humdChart.data.labels.push(data.time); //Add time in x-asix
+                humdChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(data.temp); //Add temp in y-axis
+                });
+            } else { //If there are already 15 data points in the graph.
+                humdChart.data.labels.shift(); //Remove first time data
+                humdChart.data.labels.push(data.time); //Insert latest time data
+                humdChart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift(); //Remove first temp data
+                    dataset.data.push(data.temp); //Insert latest temp data
+                });
+            }
+            humdChart.update(); //Update the graph.
+
+        });
+
+        var ctxPress = document.getElementById("pressChart").getContext('2d');
+        var pressChart = new Chart(ctxPress, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Pressure on BMP180 (hPa)",
+                    borderColor: "#FF5733",
+                    data: [],
+                    fill: false,
+                    pointStyle: 'circle',
+                    backgroundColor: '#3498DB',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    lineTension: 0,
+                }]
+            },
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+
+        });
+        socket.on('Pressure', function(data) {
+            //console.log(data.temp);
+            document.getElementById('date').innerHTML = data.date+" 	Time:"+data.time; //update the date
+            if (pressChart.data.labels.length != 15) { //If we have less than 15 data points in the graph
+                pressChart.data.labels.push(data.time); //Add time in x-asix
+                pressChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(data.temp); //Add temp in y-axis
+                });
+            } else { //If there are already 15 data points in the graph.
+                pressChart.data.labels.shift(); //Remove first time data
+                pressChart.data.labels.push(data.time); //Insert latest time data
+                pressChart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift(); //Remove first temp data
+                    dataset.data.push(data.temp); //Insert latest temp data
+                });
+            }
+            pressChart.update(); //Update the graph.
+
+        });
+
+        var ctxlight = document.getElementById("Illuminance").getContext('2d');
+        var lightChart = new Chart(ctxlight, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Illuminance on TSL2561 (lux)",
+                    borderColor: "#FF5733",
+                    data: [],
+                    fill: false,
+                    pointStyle: 'circle',
+                    backgroundColor: '#3498DB',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    lineTension: 0,
+                }]
+            },
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+
+        });
+        socket.on('Illuminance', function(data) {
+            document.getElementById('date').innerHTML = data.date+" 	Time:"+data.time; //update the date
+            if (lightChart.data.labels.length != 15) { //If we have less than 15 data points in the graph
+                lightChart.data.labels.push(data.time); //Add time in x-asix
+                lightChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(data.temp); //Add temp in y-axis
+                });
+            } else { //If there are already 15 data points in the graph.
+                lightChart.data.labels.shift(); //Remove first time data
+                lightChart.data.labels.push(data.time); //Insert latest time data
+                lightChart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift(); //Remove first temp data
+                    dataset.data.push(data.temp); //Insert latest temp data
+                });
+            }
+            lightChart.update(); //Update the graph.
+        });
+        	function handleLedGreen(){
+                    if(document.getElementById("onOffGreen").innerHTML == 'On'){
+                        socket.emit('eventLedGreenOff')
+                    }else{
+                        socket.emit('eventLedGreenOn');
+                    }
+        	}
+        	function handleLedRed(){
+                    if(document.getElementById("onOffRed").innerHTML == 'On'){
+                        socket.emit('eventLedRedOff')
+                    }else{
+                        socket.emit('eventLedRedOn');
+                    }
+        	}
+        	function handleLedBlue(){
+                    if(document.getElementById("onOffBlue").innerHTML == 'On'){
+                        socket.emit('eventLedBlueOff')
+                    }else{
+                        socket.emit('eventLedBlueOn');
+                    }
+        	}
+		    function handleModeRelay1(){
+                // socket.emit('eventAutoRelay1');
+                    if(document.getElementById("stateModeRelay1").innerHTML == 'Auto'){
+                        socket.emit('eventModeManualRelay1')
+                    }
+                    if(document.getElementById("stateModeRelay1").innerHTML == 'Manual'){
+                        socket.emit('eventAutoModeRelay1');
+                    }
+            }
+            socket.on('ModeRelay1', function(data){
+                var state = data.onOff;
+                if(state == true){
+                    document.getElementById("stateModeRelay1").innerHTML = 'Auto';
+                    document.getElementById("stateModeRelay1").style.backgroundColor = "#2d89ef";
+                }else{
+                    document.getElementById("stateModeRelay1").innerHTML = 'Manual';
+                    document.getElementById("stateModeRelay1").style.backgroundColor = "#808080";
+                }
+            })
+            function handleRelay1(){
+                if(document.getElementById("onOffRelay1").innerHTML == 'On'){
+                    socket.emit('eventOffRelay1')
+                }else{
+                    socket.emit('eventOnRelay1');
+                }
+            }  
+		    // function handleModeRelay2(){
+            //     socket.emit('eventAutoRelay2');
+            // }
+            function handleRelay2(){
+                if(document.getElementById("onOffRelay2").innerHTML == 'On'){
+                    socket.emit('eventOffRelay2')
+                }else{
+                    socket.emit('eventOnRelay2');
+                }
+            }   
+		    socket.on('stateRelay1', function(data) {
+                var state = data.onOff;
+                if(state == true){
+                    document.getElementById("onOffRelay1").innerHTML = 'On';
+                    document.getElementById("onOffRelay1").style.backgroundColor = "#2d89ef";
+                }else{
+                    document.getElementById("onOffRelay1").innerHTML = 'Off';
+                    document.getElementById("onOffRelay1").style.backgroundColor = "#808080";
+                }
+            });   
+            socket.on('readStateRelay1', function(data) {
+                var state = data;
+                if(state == 0){
+                    document.getElementById("onOffRelay1").innerHTML = 'On';
+                    document.getElementById("onOffRelay1").style.backgroundColor = "#2d89ef";
+                }else{
+                    document.getElementById("onOffRelay1").innerHTML = 'Off';
+                    document.getElementById("onOffRelay1").style.backgroundColor = "#808080";
+                }
+            });
+		    socket.on('stateRelay2', function(data) {
+                var state = data.onOff;
+                if(state == true){
+                    document.getElementById("onOffRelay2").innerHTML = 'On';
+                    document.getElementById("onOffRelay2").style.backgroundColor = "#2d89ef";
+                }else{
+                    document.getElementById("onOffRelay2").innerHTML = 'Off';
+                    document.getElementById("onOffRelay2").style.backgroundColor = "#808080";
+                }
+            });       
+        
+        
     </script>
 
 </body>
