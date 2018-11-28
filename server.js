@@ -9,7 +9,9 @@ app.use(express.static('./views/home/images'));
 // config = require('./server/configure');
 // var bodyParser = require('body-parser')
 var ejs = require('ejs');
-var serverlwm2m = require('lwm2m').createServer();
+
+var lwm2m = require('lwm2m');
+
 var mongoose = require('mongoose');
 // const assert = require('assert');
 var Schema = require('./node_modules/lwm2m/lib/schema.js');
@@ -19,11 +21,14 @@ var optionsTempperature = require('./OMA/schemaLwm2mTemperature.js');
 var optionsDI = require('./OMA/schemaLwm2mDI.js');
 var optionsLightControl = require('./OMA/schemaLwm2mLightControl.js');
 var optionsDeviceInfo = require('./OMA/schemaLwm2mDeviceInfo.js');
-
+var schema = lwm2m.Schema({
+    foo : { id: 5, type: 'String' },
+    bar : { id: 6, type: 'Integer' },
+  });
+  var serverlwm2m =   lwm2m.createServer();
 app.set('port', process.env.PORT || 8080);
 
 app.set('view engine', 'ejs');
-
 // Connection URL
 const urlDevices = 'mongodb://localhost:27017/Lwm2mDevicesList';
 mongoose.connect(urlDevices,{ useNewUrlParser: true });
@@ -104,13 +109,16 @@ io.on('connection', function(socket){
             // setInterval(observeHumd, 33000);
             // setInterval(observePress, 12000);
             // setInterval(observeLight, 5000);
-            // serverlwm2m.on('update', function(){
-            //         observeTemp();
-            //         observeHumd();
-            //         observePress();
-            // //         observeLight();
-                    
-            //     })   //update
+            serverlwm2m.on('update', function(){
+                    observeTemp();
+                    observeHumd();
+                    observePress();
+            //         observeLight();
+            // readTempValue();
+            // readHumdValue();
+            // readLightValue();
+            // readPressValue();
+                })   //update
             setInterval(function(){
                 // serverlwm2m.on('update', function(){
             //         // observeTemp();
@@ -119,10 +127,10 @@ io.on('connection', function(socket){
             //         // observeLight();
             //         // observeRelay1();
             //         // done();
-                    // if(modeManualOn == 0){
+                    if(modeManualOn == 0){
                         observeRelay1();
                         // console.log('observe relay 1 lllll')
-                    // }
+                    }
                 // })   //update
             }, 5000);
         // });
