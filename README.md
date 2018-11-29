@@ -1,1 +1,0 @@
-# lwm2m_server
