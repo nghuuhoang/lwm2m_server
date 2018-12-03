@@ -21,6 +21,7 @@ var optionsTempperature = require('./OMA/schemaLwm2mTemperature.js');
 var optionsDI = require('./OMA/schemaLwm2mDI.js');
 var optionsLightControl = require('./OMA/schemaLwm2mLightControl.js');
 var optionsDeviceInfo = require('./OMA/schemaLwm2mDeviceInfo.js');
+var optionsNetworkInfo = require('./OMA/schemaLwm2mNetworkInfo.js');
 var schema = lwm2m.Schema({
     foo : { id: 5, type: 'String' },
     bar : { id: 6, type: 'Integer' },
@@ -70,70 +71,25 @@ io.on('connection', function(socket){
         socket.on('disconnect', function(){
             console.log('Someone disconnected');
         });
-        // modeManualOn = 0;
         readRelay1();
         readRelay2();
         readLedBlue();
         readLedGreen();
         readLedRed();
         observeRelay1();
-        // readTempValue();
-        // readHumdValue();
-        // readLightValue();
-        // readPressValue();
         readStateModeRelay1();
-        // socket.on('clickedDeviceInfo', function(){
-        //   console.log('clicked');
-          // console.log(endpoint);
-        // setInterval( function(){
-            serverlwm2m.read(endpoint, '/3/0',optionsDeviceInfo, function(err,res){
-                if(res){
-                    io.sockets.emit('deviceInfo', res);
-                }
-                if(err){
-                    io.sockets.emit('responseMessage', err.message);
-                }
-            })  
-        // },10000);
-        // });
+        readDeviceInfo();
 
-            // socket.on('clickedObserveTemp', function(){
-                // setInterval(readTempValue, 13000);
-                // setInterval(readHumdValue, 33000);
-                // setInterval(readLightValue, 27000);
-                // setInterval(readPressValue, 49000);
-            // })
-        // socket.on('clickedObserveTemp', function(){
-        //   console.log('clicked');
-            // setInterval(observeTemp, 6000);
-            // setInterval(observeHumd, 33000);
-            // setInterval(observePress, 12000);
-            // setInterval(observeLight, 5000);
-            serverlwm2m.on('update', function(){
-                    observeTemp();
-                    observeHumd();
-                    observePress();
-            //         observeLight();
-            // readTempValue();
-            // readHumdValue();
-            // readLightValue();
-            // readPressValue();
-                })   //update
+                setInterval(readTempValue, 13000);
+                setInterval(readHumdValue, 33000);
+                setInterval(readLightValue, 27000);
+                setInterval(readPressValue, 49000);
+       
             setInterval(function(){
-                // serverlwm2m.on('update', function(){
-            //         // observeTemp();
-            //         // observeHumd();
-            //         // observePress();
-            //         // observeLight();
-            //         // observeRelay1();
-            //         // done();
-                    if(modeManualOn == 0){
                         observeRelay1();
-                        // console.log('observe relay 1 lllll')
-                    }
-                // })   //update
             }, 5000);
         // });
+/*--------------------------------------------------------------------------------------------------------------------- */
 
         
         socket.on('eventLedGreenOn', function(){
@@ -169,19 +125,19 @@ io.on('connection', function(socket){
         
         
             socket.on('eventOnRelay1', function(){
-                
+                observeRelay1();
                 if(modeManualOn == 1){
                     console.log('on realy 1')
                 var promise = serverlwm2m.write(endpoint, '/3311/3/5850', {onOff : true}, optionsLightControl)
-                .then(res => console.log(res)&readRelay1(), err => io.sockets.emit('responseMessage', err.message));
+                .then(res => console.log(res)&readRelay1()&io.sockets.emit('responseMessage', "Relay 1 On"), err => io.sockets.emit('responseMessage', err.message));
                 }
             });
             socket.on('eventOffRelay1', function(){
-                
+                observeRelay1();
                 if(modeManualOn == 1){
                     console.log('off relay 1')
                 var promise = serverlwm2m.write(endpoint, '/3311/3/5850', {onOff : false}, optionsLightControl)
-                .then(res => console.log(res)&readRelay1(), err => io.sockets.emit('responseMessage', err.message));
+                .then(res => console.log(res)&readRelay1()&io.sockets.emit('responseMessage', "Relay 1 Off"), err => io.sockets.emit('responseMessage', err.message));
             }
             });
         
@@ -197,15 +153,20 @@ io.on('connection', function(socket){
             .then(res => console.log(res)&readRelay2(), err => io.sockets.emit('responseMessage', err.message));
         });
         socket.on('eventAutoModeRelay1', function(){
-            modeManualOn = 0;
-            
+            setImmediate(function(){
+                modeManualOn = 0;
+                observeRelay1();
+            })
                 console.log('Relay1 in Auto mode')
             var promise = serverlwm2m.write(endpoint, '/3311/5/5850', {onOff: true}, optionsLightControl)
             .then(res => console.log(res)&readStateModeRelay1(), err => io.sockets.emit('responseMessage', err.message));
         
             })
         socket.on('eventModeManualRelay1', function(){
-            modeManualOn =1;
+            setImmediate(function(){
+                modeManualOn = 1;
+                observeRelay1();
+            })
                 console.log('Relay1 in Manual mode')
                 var promise = serverlwm2m.write(endpoint, '/3311/5/5850', {onOff: false}, optionsLightControl)
                 .then(res => console.log(res)&readStateModeRelay1(), err => io.sockets.emit('responseMessage', err.message));
@@ -394,7 +355,7 @@ function readRelay1(){
             io.sockets.emit('stateRelay1', res);
         } 
         if(err){
-            io.sockets.emit('responseMessage', err.message);
+            io.sockets.emit('responseMessage', err.message + " read relay 1");
         }   
     });
 }
@@ -405,7 +366,7 @@ function readRelay2(){
             io.sockets.emit('stateRelay2', res);
         } 
         if(err){
-            io.sockets.emit('responseMessage', err.message);
+            io.sockets.emit('responseMessage', err.message + "read relay 2");
         }   
     });
 }
@@ -416,7 +377,7 @@ function readStateModeRelay1(){
             io.sockets.emit('ModeRelay1', res);
         } 
         if(err){
-            io.sockets.emit('responseMessage', err.message);
+            io.sockets.emit('responseMessage', err.message + " read state relay 1");
         }   
     });
 }
@@ -427,7 +388,7 @@ function readTempValue(){
                 io.sockets.emit('Temperature', {date: today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear(), time: (today.getHours())+":"+(today.getMinutes()), temp:res.value});
         }
         if(err){
-            io.sockets.emit('responseMessage', err.message + " when read Temperature Value");
+            // io.sockets.emit('responseMessage', err.message + " when read Temperature Value");
         }
     }) 
 }
@@ -440,7 +401,7 @@ function readHumdValue(){
        
         }
         if(err){
-            io.sockets.emit('responseMessage', err.message + " when read Humidity Value");
+            // io.sockets.emit('responseMessage', err.message + " when read Humidity Value");
         }
     }) 
 }
@@ -452,7 +413,7 @@ function readPressValue(){
                 io.sockets.emit('Pressure', {date: today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear(), time: (today.getHours())+":"+(today.getMinutes()), temp:res.value});
         }
         if(err){
-            io.sockets.emit('responseMessage', err.message = " when read Pressure Value");
+            // io.sockets.emit('responseMessage', err.message = " when read Pressure Value");
         }
     }) 
 }
@@ -464,7 +425,7 @@ function readLightValue(){
                 io.sockets.emit('Illuminance', {date: today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear(), time: (today.getHours())+":"+(today.getMinutes()), temp:res.value});
         }
         if(err){
-            io.sockets.emit('responseMessage', err.message + " when read Light Sensor Value");
+            // io.sockets.emit('responseMessage', err.message + " when read Light Sensor Value");
         }
     }) 
 }
@@ -479,10 +440,24 @@ function observeRelay1(){
                 console.log(value)
                 io.sockets.emit('readStateRelay1', value);
             })
-        //     stream.on('end', function() {
+            stream.on('end', function() {
         //     // done();
-        //   }); 
+          }); 
         }   
         
     });
+}
+
+
+
+
+function readDeviceInfo(){
+    serverlwm2m.read(endpoint, '/3/0',optionsDeviceInfo, function(err,res){
+        if(res){
+            io.sockets.emit('deviceInfo', res);
+        }
+        if(err){
+            io.sockets.emit('responseMessage', err.message + " device info");
+        }
+    })  
 }

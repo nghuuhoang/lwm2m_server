@@ -146,8 +146,9 @@ button:hover {
 </head>
 
      	<header>
-    	<%- include('header.ejs') %>
+    	<%- include('../header.ejs') %>
         <h1 class="headerEndpoint"><%=epname%></h1>
+        <h4 class="center">Date: <span id="date"></span></h4>
 </header>
 
 <body>
@@ -165,7 +166,6 @@ button:hover {
     <table id="idDevice">
         <tr>
             <th>Device</th>
-            <!-- <th><button onclick="buttonDeviceInfo()">Read</button></th> -->
             <th>Information</th>
         </tr>
         <tr>
@@ -187,6 +187,36 @@ button:hover {
         <tr>
             <td>Device Type</td>
             <td id="deviceType"></td>
+        </tr>
+    </table>
+    <table id="idDevice">
+        <tr>
+            <th>Network</th>
+            <th>Information</th>
+        </tr>
+        <tr>
+            <td>Routing</td>
+            <td id="routing"></td>
+        </tr>
+        <tr>
+            <td>Networking</td>
+            <td id="networking"></td>
+        </tr>
+        <tr>
+            <td>MAC Layer</td>
+            <td id="macLayer"></td>
+        </tr>
+        <tr>
+            <td>802.15.4 PANID</td>
+            <td id="networkPanID"></td>
+        </tr>
+        <tr>
+            <td>802.15.4 Channel</td>
+            <td id="channel"></td>
+        </tr>
+        <tr>
+            <td>Node ID</td>
+            <td id="nodeId"></td>
         </tr>
     </table>
     <table>
@@ -228,7 +258,7 @@ button:hover {
 	</td>
   </tr>
 </table>
-    <h4 class="center">Date: <span id="date"></span></h4>
+    
     <div class="btn-group">
         <!-- <button class="button" onclick="buttonObserveTemp()">Observe</button> -->
         <!-- <button class="button" onclick="buttonStopObserveTemp()">Stop Observe</button> -->
@@ -265,8 +295,25 @@ button:hover {
             document.getElementById("serialNumber").innerHTML = data.serialNumber;
             document.getElementById("frimwareVersion").innerHTML = data.frimwareVersion;
             document.getElementById("deviceType").innerHTML = data.deviceType;
+            document.getElementById("routing").innerHTML = data.routing;
+            document.getElementById("networking").innerHTML = data.networking;
+            document.getElementById("macLayer").innerHTML = data.macLayer;
+            document.getElementById("networkPanID").innerHTML = dec2hexString(data.panId);
+            document.getElementById("channel").innerHTML = data.channel;
+            document.getElementById("nodeId").innerHTML = data.nodeId;
 
         });
+        function dec2hexString(dec) {
+            return '0x' + (dec+0x10000).toString(16).substr(-4).toUpperCase();
+            }
+        // socket.on('networkInfo', function(data){
+        //     document.getElementById("routing").innerHTML = data.routing;
+        //     document.getElementById("networking").innerHTML = data.networking;
+        //     document.getElementById("macLayer").innerHTML = data.macLayer;
+        //     document.getElementById("networkPanID").innerHTML = data.panId;
+        //     document.getElementById("channel").innerHTML = data.channel;
+        //     document.getElementById("nodeId").innerHTML = data.nodeId;
+        // })
         socket.on('LightControlLedGreen', function(data) {
             var state = data.onOff;
                 if(state == true){
