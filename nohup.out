@@ -1,0 +1,26 @@
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] MongoDB starting : pid=7036 port=27017 dbpath=data 64-bit host=dev
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] db version v3.6.3
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] git version: 9586e557d54ef70f9ca4b43c26892cd55257e1a5
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.1.0g  2 Nov 2017
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] modules: none
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] build environment:
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten]     distarch: x86_64
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-12-04T15:20:51.458+0700 I CONTROL  [initandlisten] options: { storage: { dbPath: "data" } }
+2018-12-04T15:20:51.471+0700 I STORAGE  [initandlisten] exception in initAndListen: DBPathInUse: Unable to lock the lock file: data/mongod.lock (Resource temporarily unavailable). Another mongod instance is already running on the data directory, terminating
+2018-12-04T15:20:51.471+0700 I CONTROL  [initandlisten] now exiting
+2018-12-04T15:20:51.471+0700 I CONTROL  [initandlisten] shutting down with code:100
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] MongoDB starting : pid=7676 port=27017 dbpath=data 64-bit host=dev
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] db version v3.6.3
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] git version: 9586e557d54ef70f9ca4b43c26892cd55257e1a5
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.1.0g  2 Nov 2017
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] modules: none
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] build environment:
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten]     distarch: x86_64
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] options: { storage: { dbPath: "data" } }
+2018-12-04T15:39:41.088+0700 I STORAGE  [initandlisten] exception in initAndListen: DBPathInUse: Unable to lock the lock file: data/mongod.lock (Resource temporarily unavailable). Another mongod instance is already running on the data directory, terminating
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] now exiting
+2018-12-04T15:39:41.088+0700 I CONTROL  [initandlisten] shutting down with code:100
