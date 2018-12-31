@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "prestart": "mongod --dbpath data",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
@@ -17,7 +16,7 @@
     "ejs-lint": "^0.3.0",
     "express": "^4.16.4",
     "lwm2m": "^0.12.0",
-    "mongodb": "^3.1.10",
+    "mongodb": "^3.1.6",
     "mongoose": "^5.2.17",
     "schema": "^0.2.1",
     "socket.io": "^2.1.1"

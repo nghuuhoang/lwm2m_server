@@ -35,33 +35,12 @@ const urlDevices = 'mongodb://localhost:27017/Lwm2mDevicesList';
 mongoose.connect(urlDevices,{ useNewUrlParser: true });
 const schemaDevices = new mongoose.Schema({
    ep : String,
-  //  {
-  //      type: String,
-  //      required: true,
-  //      unique: true
-  // }
   lt : Number,
   payload : String,
   b : String,
   date : {type: Date, default: Date.now}
 })
 var devices = mongoose.model('devices',schemaDevices)
-
-// const schemaDeviceInfo = new mongoose.Schema({
-//    manufacturer : String,
-//    modelNumber : String,
-//    serialNumber : String,
-//    frimwareVersion : String,
-//    deviceType : String
-// })
-// var DeviceInfo = mongoose.model('DeviceInfo', schemaDeviceInfo)
-
-// const schemaTemperature = new mongoose.Schema({
-//    value : Number,
-//    unit : String
-// })
-
-// var TemperatureDB = mongoose.model('Temperature', schemaTemperature)
 
 
 var endpoint;
@@ -70,6 +49,7 @@ io.on('connection', function(socket){
         console.log("Someone connected."); //show a log as a new client connects.
         socket.on('disconnect', function(){
             console.log('Someone disconnected');
+            endpoint = ""
         });
         readRelay1();
         readRelay2();
@@ -437,7 +417,7 @@ function observeRelay1(){
         }
         if(stream){
             stream.on('data', function(value){
-                console.log(value)
+                // console.log(value)
                 io.sockets.emit('readStateRelay1', value);
             })
             stream.on('end', function() {
