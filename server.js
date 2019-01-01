@@ -189,20 +189,25 @@ app.get('/:endpoint', function(req,res){
 
 
     serverlwm2m.on('register', function(params, accept) {
+        var checkdevicename = 0;
         devices.find({}, function(err,dataDevice){
                 if (dataDevice.length == 0) {
                     devices.create(params)
                         .then(res => console.log(res), err => console.log(err + ''));
                 }else{
                     for (var i = 0; i < dataDevice.length; i++) {
-                    if (params.ep == dataDevice[i].ep ) {
-                        devices.updateOne(params, {date :Date.now()})
-                        .then(res => console.log(res), err => console.log(err + ''));
+                        if (params.ep == dataDevice[i].ep ) {
+                            checkdevicename = 1;
+                            devices.updateOne(params, {date :Date.now()})
+                            .then(res => console.log(res), err => console.log(err + ''));
+                        }
+                    } 
+                    if(checkdevicename != 0){
+                        checkdevicename = 0;
                     }else{
                         devices.create(params)
-                        .then(res => console.log(res), err => console.log(err + ''));
+                            .then(res => console.log(res), err => console.log(err + ''));
                     }
-                } 
                 }
             })
     accept();
