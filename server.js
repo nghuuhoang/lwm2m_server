@@ -32,7 +32,9 @@ app.set('port', process.env.PORT || 8080);
 app.set('view engine', 'ejs');
 // Connection URL
 const urlDevices = 'mongodb://localhost:27017/Lwm2mDevicesList';
-mongoose.connect(urlDevices,{ useNewUrlParser: true });
+mongoose.connect(urlDevices,{ useNewUrlParser: true }, function(){
+    mongoose.connection.db.dropDatabase();
+});
 const schemaDevices = new mongoose.Schema({
    ep : String,
   lt : Number,
